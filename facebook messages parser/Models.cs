@@ -121,6 +121,9 @@ namespace facebook_messages_parser
         [JsonProperty("is_taken_down")]
         public bool IsTakenDown;
 
+        [JsonProperty("is_geoblocked_for_viewer")]
+        public bool? IsGeoblockedForViewer;
+
         public class BumpedMetadata
         {
             [JsonProperty("bumped_message")]
@@ -321,10 +324,19 @@ namespace facebook_messages_parser
         [JsonExtensionData]
         private IDictionary<string, object> _additionalData;
 
+        [JsonProperty("ai_stickers")]
+        public List<object> AiStickers;
+
         public void Validate()
         {
             if (this._additionalData != null && this._additionalData.Count > 0)
             {
+                throw new FormatException();
+            }
+
+            if (this.AiStickers != null && this.AiStickers.Any())
+            {
+                // todo: what's the structure here?
                 throw new FormatException();
             }
         }
